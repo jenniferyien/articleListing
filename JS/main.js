@@ -52,6 +52,12 @@ var MainDiv = React.createClass({
     this.setState({pageCount: next})
     this.ajaxCalls(next)
   },
+  prev: function(){
+    var prev = this.state.pageCount - 10;
+    console.log(this.state.pageCount)
+    this.setState({pageCount: prev})
+    this.ajaxCalls(prev)
+  },
   render: function(){
     var article = this.state.currentPage.map(function(item){
       return (
@@ -60,6 +66,7 @@ var MainDiv = React.createClass({
     });
     return (
       <div>
+      <button onClick={this.prev}>Prev</button>
       <button onClick={this.more}>Next</button>
       <h2>Hello </h2>
       <div>{article}</div>
