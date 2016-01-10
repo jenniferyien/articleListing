@@ -58,17 +58,47 @@ var MainDiv = React.createClass({
     this.setState({pageCount: prev})
     this.ajaxCalls(prev)
   },
+  wordSortL: function(){
+    var leastFirst = this.state.currentPage.sort(function(a,b){
+			return (a.words - b.words)
+		});
+    this.setState({currentPage: leastFirst})
+  },
+  wordSortM: function(){
+    var mostFirst = this.state.currentPage.sort(function(a,b){
+      return (b.words - a.words)
+    });
+    this.setState({currentPage: mostFirst})
+  },
+  // sortDate: function(){
+  //   var date = this.currentPage.sort(function(a,b){
+  //     var c = new Date(a.publish_at).getTime();
+  //     var d = new Date(b.publish_at).getTime();
+  //     return c-d;
+  //   });
+  //   this.setState({currentPage: date})
+  // },
   render: function(){
     var article = this.state.currentPage.map(function(item){
       return (
-        <li>{item.title}</li>
+        <ul>
+          <li>image: {item.image}</li>
+          <li>url: {item.url}</li>
+          <li>title: {item.title}</li>
+          <li>author: {item.profile.first_name} {item.profile.last_name}</li>
+          <li>words: {item.words}</li>
+          <li>submitted: {item.publish_at}</li>
+        </ul>
       )
     });
     return (
       <div>
       <button onClick={this.prev}>Prev</button>
       <button onClick={this.more}>Next</button>
-      <h2>Hello </h2>
+      <button onClick={this.wordSortL}>words sorting L to M</button>
+      <button onClick={this.wordSortM}>words sorting M to L</button>
+      <button onClick={this.sortDate}>date sort</button>
+      <h2> Hello </h2>
       <div>{article}</div>
       </div>
     )
