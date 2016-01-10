@@ -70,16 +70,27 @@ var MainDiv = React.createClass({
     });
     this.setState({currentPage: mostFirst})
   },
-  // sortDate: function(){
-  //   var date = this.currentPage.sort(function(a,b){
-  //     var c = new Date(a.publish_at).getTime();
-  //     var d = new Date(b.publish_at).getTime();
-  //     return c-d;
-  //   });
-  //   this.setState({currentPage: date})
-  // },
+  sortDateNew: function(){
+    var date = this.state.currentPage.sort(function(a,b){
+      var c = new Date(a.publish_at);
+      var d = new Date(b.publish_at);
+      return c-d;
+    });
+    this.setState({currentPage: date})
+  },
+  sortDateOld: function(){
+    var date = this.state.currentPage.sort(function(a,b){
+      var c = new Date(a.publish_at);
+      var d = new Date(b.publish_at);
+      return d-c;
+    });
+    this.setState({currentPage: date})
+  },
   render: function(){
     var article = this.state.currentPage.map(function(item){
+      //if i wante hours and min (HH:mm)
+      var displayTime = moment(item.publish_at).format('L');
+      var date = moment(item.publish_at).fromNow();
       return (
         <ul>
           <li>image: {item.image}</li>
@@ -87,7 +98,7 @@ var MainDiv = React.createClass({
           <li>title: {item.title}</li>
           <li>author: {item.profile.first_name} {item.profile.last_name}</li>
           <li>words: {item.words}</li>
-          <li>submitted: {item.publish_at}</li>
+          <li>submitted: {date} on {displayTime}</li>
         </ul>
       )
     });
@@ -97,7 +108,8 @@ var MainDiv = React.createClass({
       <button onClick={this.more}>Next</button>
       <button onClick={this.wordSortL}>words sorting L to M</button>
       <button onClick={this.wordSortM}>words sorting M to L</button>
-      <button onClick={this.sortDate}>date sort</button>
+      <button onClick={this.sortDateNew}>date sort Newer</button>
+      <button onClick={this.sortDateOld}>date sort Older</button>
       <h2> Hello </h2>
       <div>{article}</div>
       </div>
