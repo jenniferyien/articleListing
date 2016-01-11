@@ -1,0 +1,96 @@
+/**************************/
+/*INITIAL SET
+**************************/
+
+* {
+  margin: 0;
+}
+
+body {
+  width: 1000px;
+}
+
+/**************************/
+/*CATEGORY DISPLAY
+**************************/
+#categories li{
+  display: inline;
+  float: left;
+}
+
+.title {
+  width: 50%;
+}
+
+.author {
+  width: 25%;
+}
+
+.words {
+  width: 10%;
+}
+
+.date {
+  width: 15%;
+}
+
+/**************************/
+/*INDIVIDUAL ARTICLES
+**************************/
+
+#articles {
+  clear: both;
+}
+
+#article {
+  clear: both;
+  padding: 2% 0;
+}
+
+#article li{
+  display: inline;
+  float: left;
+}
+
+img {
+  width: 80px;
+}
+
+/**************************/
+/*FOOTER & (PAGE PAGINATION)
+**************************/
+#pagination {
+  clear: both;
+  height: 75px;
+}
+
+#pagination li {
+  display: inline;
+  cursor: pointer;
+}
+
+#pagination #next {
+  float: right;
+  margin: 2% 0;
+  margin-right: 10%;
+}
+
+#pagination #prev {
+  float: left;
+  margin-left: 10%;
+  margin: 2% 0;
+}
+
+footer {
+  clear: both;
+  background-color: #000000;
+  color: #C1C1C1;
+  height: 50px;
+}
+
+footer p{
+  float: right;
+  font-size: 12px;
+  margin: 1% 0;
+  margin-right: 10%;
+}

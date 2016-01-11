@@ -123,21 +123,22 @@ var MainDiv = React.createClass({
     this.articleDisplay(this.state.pageCount)
   },
   render: function(){
+    //change button view based on more or less
     if(this.state.noMore == true){
       var buttons =
         <div>
-          <button onClick={this.prev}>Prev</button>
+          <li id='prev' onClick={this.prev}> &#8249; Prev</li>
         </div>
     } else if (this.state.noLess == true) {
       var buttons =
         <div>
-          <button onClick={this.more}>Next</button>
+          <li id='next' onClick={this.more}>Next &#8250;</li>
         </div>
     } else {
       var buttons =
         <div>
-          <button onClick={this.prev}>Prev</button>
-          <button onClick={this.more}>Next</button>
+          <li id='prev' onClick={this.prev}> &#8249; Prev</li>
+          <li id='next' onClick={this.more}>Next &#8250; </li>
         </div>
     }
     var article = this.state.currentPage.map(function(item){
@@ -145,25 +146,43 @@ var MainDiv = React.createClass({
       var displayTime = moment(item.publish_at).format('L');
       var date = moment(item.publish_at).fromNow();
       return (
-        <ul>
-          <li>image: {item.image}</li>
-          <li>url: {item.url}</li>
-          <li>title: {item.title}</li>
-          <li>author: {item.profile.first_name} {item.profile.last_name}</li>
-          <li>words: {item.words}</li>
-          <li>submitted: {date} on {displayTime}</li>
+        <ul id='article'>
+          <li className='title'>
+            <img src={item.image}/>
+            <a href={item.url}>{item.title}</a>
+          </li>
+          <li className='author'>author: {item.profile.first_name} {item.profile.last_name}</li>
+          <li className='words'>words: {item.words}</li>
+          <li className='date'>submitted: {date} on {displayTime}</li>
         </ul>
       )
     });
     return (
       <div>
-      <div>{buttons}</div>
-      <button onClick={this.wordSortL}>words sorting L to M</button>
-      <button onClick={this.wordSortM}>words sorting M to L</button>
-      <button onClick={this.sortDateNew}>date sort Newer</button>
-      <button onClick={this.sortDateOld}>date sort Older</button>
-      <h2> Hello </h2>
-      <div>{article}</div>
+        <header>
+          <h1>Article Listing</h1>
+          <ul id='categories'>
+            <li className='title'> Articles </li>
+            <li className='author'> Author </li>
+            <li className='words'> Words
+              <a href='#' onClick={this.wordSortL}> &#8963; </a>
+              <a href='#' onClick={this.wordSortM}> &#8964; </a>
+            </li>
+            <li className='date'> Submitted
+              <a href='#' onClick={this.sortDateNew}> &#8963; </a>
+              <a href='#' onClick={this.sortDateOld}> &#8964; </a>
+            </li>
+          </ul>
+        </header>
+
+
+        <div id='articles'>{article}</div>
+        <div>
+          <ul id='pagination'>{buttons}</ul>
+        </div>
+        <footer>
+          <p>Copyright goes here</p>
+        </footer>
       </div>
     )
   }
