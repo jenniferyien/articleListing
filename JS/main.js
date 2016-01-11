@@ -177,8 +177,6 @@ var MainDiv = React.createClass({
             </li>
           </ul>
         </header>
-
-
         <div id='articles'>{article}</div>
         <div>
           <ul id='pagination'>{buttons}</ul>
