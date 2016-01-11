@@ -9,7 +9,7 @@ var MainDiv = React.createClass({
   ajaxCalls: function(){
     //getting two calls to load all articles needed
     $.ajax({
-      url: 'data/articles.json',
+      url: 'articles/articles.json',
       method: 'GET',
       datatype: 'JSON',
       success: function(data, status, xhr){
@@ -29,7 +29,7 @@ var MainDiv = React.createClass({
         }
         //false async so ajax must be completed before moving forward
         $.ajax({
-          url: 'data/more-articles.json',
+          url: 'articles/more-articles.json',
           method: 'GET',
           datatype: 'JSON',
           async: false,
