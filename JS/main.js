@@ -1,13 +1,12 @@
 var MainDiv = React.createClass({
   getInitialState: function(){
     //state where data will be stored
-    return {currentPage: [], pageCount: 0}
+    return {articlesData: [], currentPage: [], pageCount: 0, noMore: false, noLess: true}
   },
   componentDidMount: function(){
-    this.ajaxCalls(0)
+    this.ajaxCalls()
   },
-  ajaxCalls: function(num){
-    var pageAmount = num + 10
+  ajaxCalls: function(){
     //getting two calls to load all articles needed
     $.ajax({
       url: './data/articles.json',
@@ -16,77 +15,131 @@ var MainDiv = React.createClass({
       success: function(data, status, xhr){
         //needs to parse through json data
         var articles = JSON.parse(data)
+        //data for all Articles
+        var dataReading = [];
+        //data for initial article display
         var displays = [];
-        if(num < articles.length){
-          for(var i = num; i < pageAmount; i++){
-              displays.push(articles[i])
-          }
-        } else {
-          $.ajax({
-            url: './data/more-articles.json',
-            method: 'GET',
-            datatype: 'JSON',
-            async: false,
-            success:function(data, status, xhr){
-              //needs to parse through json data
-              var moreArticles = JSON.parse(data);
-              for(var i = (num-30); i < (pageAmount-30); i++){
-                  displays.push(moreArticles[i])
-              }
-            },
-            error: function(xhr, status, error){
-              console.log('second ajax', error)
-            }
-          }); //ajax
+        //adding first ajax article load to dataReading
+        for(var i = 0; i < articles.length; i++){
+            dataReading.push(articles[i])
         }
-        this.setState({currentPage: displays})
+        //picking out only first 10 articles for display
+        for (var i = 0; i< 10; i++){
+          displays.push(articles[i])
+        }
+        //false async so ajax must be completed before moving forward
+        $.ajax({
+          url: './data/more-articles.json',
+          method: 'GET',
+          datatype: 'JSON',
+          async: false,
+          success:function(data, status, xhr){
+            //needs to parse through json data
+            var moreArticles = JSON.parse(data);
+            //adding all article data in json to the dataReading file
+            for(var i = 0; i < moreArticles.length; i++){
+                dataReading.push(moreArticles[i])
+            }
+          },
+          error: function(xhr, status, error){
+            console.log('second ajax', error)
+          }
+        }); //ajax
+        //setting state for all other data states
+        this.setState({currentPage: displays, articlesData: dataReading})
       }.bind(this),
       error: function(xhr, status, error){
         console.log('ajax error', error)
       }
     }); //ajax
-
   },
   more: function(){
-    var next = this.state.pageCount + 10
-    this.setState({pageCount: next})
-    this.ajaxCalls(next)
+    //taking current page count
+    //increment by 10 articles per page
+    var next = this.state.pageCount + 10;
+    //if there are no more articles to view change state noMore to true
+    if((next + 10) == this.state.articlesData.length){
+      this.articleDisplay(next)
+      this.setState({pageCount: next, noMore: true, noLess: false})
+    } else {
+      this.articleDisplay(next)
+      this.setState({pageCount: next, noMore: false, noLess: false})
+    }
   },
   prev: function(){
+    //taking page number and decreasing it
     var prev = this.state.pageCount - 10;
-    console.log(this.state.pageCount)
-    this.setState({pageCount: prev})
-    this.ajaxCalls(prev)
+    // if there are no more previous change state noLess to true
+    if(prev == 0){
+      this.articleDisplay(prev)
+      this.setState({pageCount: prev, noLess: true, noMore: false})
+    } else {
+      this.articleDisplay(prev)
+      this.setState({pageCount: prev, noLess: false, noMore: false})
+    }
+  },
+  articleDisplay: function(num){
+    var view = [];
+    //takes number given has first index and increment by 10 per article page
+    for(var i = num; i < (num + 10); i++){
+      view.push(this.state.articlesData[i]);
+    }
+    this.setState({currentPage: view})
   },
   wordSortL: function(){
-    var leastFirst = this.state.currentPage.sort(function(a,b){
+    //sort through all article listing
+    var leastFirst = this.state.articlesData.sort(function(a,b){
 			return (a.words - b.words)
 		});
-    this.setState({currentPage: leastFirst})
+    //change state
+    this.setState({articlesData: leastFirst})
+    this.articleDisplay(this.state.pageCount)
   },
   wordSortM: function(){
-    var mostFirst = this.state.currentPage.sort(function(a,b){
+    //sort through all article listing
+    var mostFirst = this.state.articlesData.sort(function(a,b){
       return (b.words - a.words)
     });
-    this.setState({currentPage: mostFirst})
+    //change state
+    this.setState({articlesData: mostFirst})
+    this.articleDisplay(this.state.pageCount)
   },
   sortDateNew: function(){
-    var date = this.state.currentPage.sort(function(a,b){
+    var date = this.state.articlesData.sort(function(a,b){
       var c = new Date(a.publish_at);
       var d = new Date(b.publish_at);
       return c-d;
     });
-    this.setState({currentPage: date})
+    this.setState({articlesData: date})
+    this.articleDisplay(this.state.pageCount)
   },
   sortDateOld: function(){
-    var date = this.state.currentPage.sort(function(a,b){
+    var date = this.state.articlesData.sort(function(a,b){
       var c = new Date(a.publish_at);
       var d = new Date(b.publish_at);
       return d-c;
     });
-    this.setState({currentPage: date})
+    this.setState({articlesData: date})
+    this.articleDisplay(this.state.pageCount)
   },
   render: function(){
+    if(this.state.noMore == true){
+      var buttons =
+        <div>
+          <button onClick={this.prev}>Prev</button>
+        </div>
+    } else if (this.state.noLess == true) {
+      var buttons =
+        <div>
+          <button onClick={this.more}>Next</button>
+        </div>
+    } else {
+      var buttons =
+        <div>
+          <button onClick={this.prev}>Prev</button>
+          <button onClick={this.more}>Next</button>
+        </div>
+    }
     var article = this.state.currentPage.map(function(item){
       //if i wante hours and min (HH:mm)
       var displayTime = moment(item.publish_at).format('L');
@@ -104,8 +157,7 @@ var MainDiv = React.createClass({
     });
     return (
       <div>
-      <button onClick={this.prev}>Prev</button>
-      <button onClick={this.more}>Next</button>
+      <div>{buttons}</div>
       <button onClick={this.wordSortL}>words sorting L to M</button>
       <button onClick={this.wordSortM}>words sorting M to L</button>
       <button onClick={this.sortDateNew}>date sort Newer</button>
