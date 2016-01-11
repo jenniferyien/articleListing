@@ -149,28 +149,31 @@ var MainDiv = React.createClass({
         <ul id='article'>
           <li className='title'>
             <img src={item.image}/>
-            <a href={item.url}>{item.title}</a>
+            <p><a href={item.url}>{item.title}</a></p>
           </li>
-          <li className='author'>author: {item.profile.first_name} {item.profile.last_name}</li>
-          <li className='words'>words: {item.words}</li>
-          <li className='date'>submitted: {date} on {displayTime}</li>
+          <li className='author'>{item.profile.first_name} {item.profile.last_name}</li>
+          <li className='words'>{item.words}</li>
+          <li className='date'>{date} on {displayTime}</li>
+          <hr/>
         </ul>
       )
     });
     return (
       <div>
         <header>
-          <h1>Article Listing</h1>
+          <hr/>
+          <h1> Article Listing</h1>
+          <hr/>
           <ul id='categories'>
             <li className='title'> Articles </li>
             <li className='author'> Author </li>
             <li className='words'> Words
-              <a href='#' onClick={this.wordSortL}> &#8963; </a>
-              <a href='#' onClick={this.wordSortM}> &#8964; </a>
+              <a className='arrow' href='#' onClick={this.wordSortL}> &#9650; </a>
+              <a className='arrow' href='#' onClick={this.wordSortM}> &#9660; </a>
             </li>
             <li className='date'> Submitted
-              <a href='#' onClick={this.sortDateNew}> &#8963; </a>
-              <a href='#' onClick={this.sortDateOld}> &#8964; </a>
+              <a className='arrow' href='#' onClick={this.sortDateNew}> &#9650; </a>
+              <a className='arrow' href='#' onClick={this.sortDateOld}> &#9660; </a>
             </li>
           </ul>
         </header>

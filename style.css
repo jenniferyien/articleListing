@@ -1,4 +1,12 @@
 /**************************/
+/*FONT IMPORT
+**************************/
+/*heading*/
+@import url(https://fonts.googleapis.com/css?family=Crete+Round);
+/*paragraphs*/
+@import url(https://fonts.googleapis.com/css?family=Titillium+Web);
+
+/**************************/
 /*INITIAL SET
 **************************/
 
@@ -7,31 +15,74 @@
 }
 
 body {
+  margin: auto;
   width: 1000px;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+/**************************/
+/*HEADER DISPLAY
+**************************/
+header {
+  font-family: 'Crete Round', serif;
+}
+
+header h1 {
+  text-align: center;
+  margin: 1% 0;
+}
+
+header hr {
+  margin: 1% 20%;
 }
 
 /**************************/
 /*CATEGORY DISPLAY
 **************************/
+#categories {
+  padding: 0;
+}
+
 #categories li{
   display: inline;
   float: left;
+  padding: 1% 0;
 }
 
+#categories .title {
+  padding-left: 2%;
+}
+
+#categories .arrow {
+  text-decoration: none;
+  color: #C1C1C1;
+}
+
+#categories .arrow:hover {
+  color: #32AEEB;
+}
+
+/**************************/
+/*COLUMN SETTINGS
+**************************/
+
 .title {
-  width: 50%;
+  width: 48%;
 }
 
 .author {
   width: 25%;
+  text-align: center;
 }
 
 .words {
   width: 10%;
+  text-align: center;
 }
 
 .date {
   width: 15%;
+  text-align: center;
 }
 
 /**************************/
@@ -44,16 +95,43 @@ body {
 
 #article {
   clear: both;
-  padding: 2% 0;
+  padding: 0;
 }
 
 #article li{
+  padding: 1% 0;
   display: inline;
   float: left;
 }
 
+#article .title {
+  padding-left: 2%;
+}
+
+#article .title p{
+  padding: 4% 0;
+  margin-left: 100px;
+}
+
+#article .author {
+  padding: 3% 0;
+}
+
+#article .words {
+  padding: 3% 0;
+}
+
+#article .date {
+  padding: 2% 0;
+}
+
+#articles hr {
+  clear:both;
+}
+
 img {
   width: 80px;
+  float: left;
 }
 
 /**************************/
@@ -62,6 +140,7 @@ img {
 #pagination {
   clear: both;
   height: 75px;
+  font-family: 'Crete Round', serif;
 }
 
 #pagination li {
@@ -75,10 +154,18 @@ img {
   margin-right: 10%;
 }
 
+#pagination #next:hover {
+  color: #32AEEB;
+}
+
 #pagination #prev {
   float: left;
   margin-left: 10%;
   margin: 2% 0;
+}
+
+#pagination #prev:hover {
+  color: #32AEEB;
 }
 
 footer {
